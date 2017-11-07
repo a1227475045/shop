@@ -15,7 +15,7 @@ use xj\uploadify\Uploadify;
 
     <?php $form = ActiveForm::begin(); ?>
         <?= $form->field($brand, 'name') ?>
-        <?= $form->field($brand, 'status')->radioList(
+        <?= $form->field($brand, 'status')->inline()->radioList(
               \backend\models\Brands::$statustext
         ) ?>
         <?=$form->field($brand,'logo')->hiddenInput()?>

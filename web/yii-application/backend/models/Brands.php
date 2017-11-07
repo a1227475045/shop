@@ -18,7 +18,7 @@ use yii\db\ActiveRecord;
 class Brands extends \yii\db\ActiveRecord
 {
    // public $imgfile;
-    public static $statustext=['-1'=>'删除','0'=>'隐藏','1'=>'上线'];
+    public static $statustext=['-1'=>"删除",'0'=>"隐藏",'1'=>"上线"];
     /**
      * @inheritdoc
      */
