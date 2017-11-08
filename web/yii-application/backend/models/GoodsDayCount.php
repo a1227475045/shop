@@ -13,5 +13,20 @@ use yii\db\ActiveRecord;
 
 class GoodsDayCount extends ActiveRecord
 {
+    public function rules(){
+        return [
+            [['count'],'integer']
+        ];
+    }
+    public function attributeLabels()
+    {
+        return [
+            'day' => '商品货号',
+            'count' => '商品数量'
+        ];
+    }
 
+    public static function tableName(){
+        return 'goods_day_count';
+    }
 }

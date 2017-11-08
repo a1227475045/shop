@@ -28,6 +28,7 @@ class Goods extends \yii\db\ActiveRecord
     public static $status=['0'=>'隐藏','1'=>'显示','-1'=>'删除'];
     public static $is_on_sale=['0'=>'不上架','1'=>'上架'];
     public $content;
+    public $path;
     /**
      * @inheritdoc
      */
@@ -42,12 +43,13 @@ class Goods extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['sn','name'], 'required'],
-            [['sn', 'goods_category_id', 'brand_id', 'stock', 'is_on_sale', 'status', 'sort'], 'integer'],
+            [['name'], 'required'],
+            [[ 'goods_category_id', 'brand_id', 'stock', 'is_on_sale', 'status', 'sort','sn'], 'integer'],
             [['market_price', 'shop_price'], 'number'],
             [['name'], 'string', 'max' => 50],
             [['logo'], 'string', 'max' => 150],
-            [['content'],'safe']
+            [['content','path'],'safe'],
+
         ];
     }
 
@@ -70,7 +72,8 @@ class Goods extends \yii\db\ActiveRecord
             'status' => '商品状态',
             'sort' => '商品排序',
             //'inputtime' => '录入时间',
-            'content'=>'商品描述'
+            'content'=>'商品描述',
+            'path'=>'商品相册',
         ];
     }
 
@@ -112,9 +115,9 @@ class Goods extends \yii\db\ActiveRecord
         return $this->hasOne(GoodsIntro::className(),['goods_id'=>'id']);
     }
 
-    //一对一 商品图片
+    //一对一 商品相册
     public function getGoodsGallery(){
-        return $this->hasOne(GoodsGallery::className(),['goods_id'=>'id']);
+        return $this->hasOne(GoodsGallery::className(),['id'=>'goods_category_id']);
     }
 
     //一对一 商品数

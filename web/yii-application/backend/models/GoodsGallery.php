@@ -13,5 +13,26 @@ use yii\db\ActiveRecord;
 
 class GoodsGallery extends ActiveRecord
 {
+    public $imgFile;
 
+
+    public static function tableName(){
+        return 'goods_gallery';
+    }
+
+
+    public function rules(){
+        return [
+            [['path'],'required'],
+          [['path','imgFile'],'safe']
+
+        ];
+    }
+    public function attributeLabels()
+    {
+        return [
+            'imgFile' => '商品相册',
+            'path'=>'商品图片'
+        ];
+    }
 }

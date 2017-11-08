@@ -13,5 +13,20 @@ use yii\db\ActiveRecord;
 
 class GoodsIntro extends ActiveRecord
 {
+    public static function tableName(){
+        return 'goods_intro';
+    }
 
+    public function rules(){
+        return [
+          [['content'],'safe']
+        ];
+    }
+
+    public function attributeLabels()
+    {
+        return [
+            'content' => '商品详情'
+        ];
+}
 }

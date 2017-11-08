@@ -16,7 +16,7 @@
         <tr data-lft="<?=$cate->lft?>" data-rgt="<?=$cate->rgt?>" data-tree="<?=$cate->tree?>">
             <td><?=$cate->id?></td>
             <td>
-                <span class="glyphicon glyphicon-collapse-down cate"></span><?=$cate->nameText?>
+                <span class="glyphicon glyphicon-upload cate"></span><?=$cate->nameText?>
             </td>
             <td><?=$cate->intro?></td>
             <td>
@@ -33,6 +33,10 @@
 $js=<<<EOF
 
 $(".cate").click(function(){
+
+$(this).toggleClass("glyphicon-download");
+$(this).toggleClass("glyphicon-upload");
+
  var tr=$(this).parent().parent();
  var lft=tr.attr('data-lft');
  var rgt=tr.attr('data-rgt');
