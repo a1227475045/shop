@@ -55,6 +55,10 @@ AppAsset::register($this);
                 [
                     'label'=>'商品分类列表',
                     'url'=>'/goods-category/index'
+                ],
+                [
+                    'label'=>'商品列表',
+                    'url'=>'/goods/index'
                 ]
             ]
         ]

@@ -18,40 +18,9 @@ use xj\uploadify\Uploadify;
         <?= $form->field($brand, 'status')->inline()->radioList(
               \backend\models\Brands::$statustext
         ) ?>
-        <?=$form->field($brand,'logo')->hiddenInput()?>
+        <?=$form->field($brand,'logo')->widget('manks\FileInput', []); ?>
 
-        <?php
 
-        echo Html::fileInput('test', NULL, ['id' => 'test']);
-        echo Uploadify::widget([
-            'url' => yii\helpers\Url::to(['s-upload']),
-            'id' => 'test',
-            'csrf' => true,
-            'renderTag' => false,
-            'jsOptions' => [
-                'width' => 120,
-                'height' => 40,
-                'onUploadError' => new JsExpression(<<<EOF
-function(file, errorCode, errorMsg, errorString) {
-    console.log('The file ' + file.name + ' could not be uploaded: ' + errorString + errorCode + errorMsg);
-}
-EOF
-                ),
-                'onUploadSuccess' => new JsExpression(<<<EOF
-function(file, data, response) {
-    data = JSON.parse(data);
-    if (data.error) {
-        console.log(data.msg);
-    } else {
-        console.log(data.fileUrl);
-        $("#brand-logo").val(date,fileUrl); 
-    }
-}
-EOF
-                ),
-            ]
-        ]);
-        ?>
         <?= $form->field($brand, 'sort') ?>
         <?= $form->field($brand, 'content') ?>
     

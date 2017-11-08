@@ -69,4 +69,14 @@ class Brands extends \yii\db\ActiveRecord
             ]
         ];
     }
+
+    //判断图片地址
+    public function getNameText()
+    {
+        if(substr($this->logo,0,7)=='http://'){
+            return $this->logo;
+        }else{
+            return "@web/".$this->logo;
+        }
+    }
 }

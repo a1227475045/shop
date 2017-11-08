@@ -10,6 +10,7 @@ namespace backend\controllers;
 
 
 use backend\models\Brands;
+use flyok666\qiniu\Qiniu;
 use yii\data\Pagination;
 use yii\web\Controller;
 use yii\web\Request;
@@ -170,4 +171,32 @@ class BrandController extends Controller
         //页面跳转
         $this->redirect('index');
     }
+
+    //图片上传
+    public function actionUpload(){
+//        var_dump($_FILES['file']['tmp_name']);exit;
+       //七牛云上传
+        //配置
+        $config = [
+            'accessKey'=>'JEtJWG7aqUIcsjEK738yJwxTsn6LJWFBgNqm-kK5',//ak
+            'secretKey'=>'kzcutq77zdftJz-vlQOyNrnDDR9RRu2sAtT8hk4t',//sk
+            'domain'=>'http://oz1697rg1.bkt.clouddn.com/',//域名
+            'bucket'=>'jinximall',//空间名称
+            'area'=>Qiniu::AREA_HUANAN //区域
+        ];
+        //实例化对象
+        $qiniu = new Qiniu($config);
+        $key = time();
+        //调用上传方法
+        $qiniu->uploadFile($_FILES['file']['tmp_name'],$key);
+        $url = $qiniu->getLink($key);
+        $info=[
+            'code'=>0,
+            'url'=>$url,
+            'attachment'=>$url
+        ];
+
+        exit(json_encode($info));
+    }
+
 }

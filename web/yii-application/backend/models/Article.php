@@ -24,7 +24,6 @@ class Article extends \yii\db\ActiveRecord
      */
     public $content;
     public static $status=['0'=>'没上线','1'=>'上线'];
-    public static $category_id=[1=>"悬疑",2=>'读书',3=>'言情',4=>'武侠',5=>'修仙'];
 
     public static function tableName()
     {

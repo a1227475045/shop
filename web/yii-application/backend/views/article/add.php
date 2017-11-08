@@ -11,8 +11,7 @@ use yii\widgets\ActiveForm;
 
     <?php $form = ActiveForm::begin(); ?>
         <?= $form->field($article, 'name') ?>
-    <?=$form->field($article,'category_id')->dropDownList(
-            [\backend\models\Article::$category_id],['prompt'=>'请选择文章分类']
+    <?=$form->field($article,'category_id')->dropDownList($options
     )?>
         <?= $form->field($article, 'status')->radioList([
         0=>'不显示',

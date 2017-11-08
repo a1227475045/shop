@@ -3,6 +3,7 @@
 namespace backend\controllers;
 
 use backend\models\GoodsCategory;
+use yii\db\Exception;
 use yii\helpers\Json;
 
 class GoodsCategoryController extends \yii\web\Controller
@@ -82,25 +83,34 @@ class GoodsCategoryController extends \yii\web\Controller
             $good->load($request->post());
 
             if ($good->validate()){
+                try{
+                    //判断父亲Id是不是0 如果是0创建根目录
 
-                //判断父亲Id是不是0 如果是0创建根目录
+                    if ($good->parent_id==0){
+                        //创建根目录
+                        //$good->makeRoot();
+                        //数据保存
+                        $good->save();
+                    }else{
 
-                if ($good->parent_id==0){
-                    //创建根目录
-                    $good->makeRoot();
-                }else{
+                        //创建子分类
 
-                    //创建子分类
+                        //1.把父节点找到
+                        $cateParent=GoodsCategory::findOne(['id'=>$good->parent_id]);
 
-                    //1.把父节点找到
-                    $cateParent=GoodsCategory::findOne(['id'=>$good->parent_id]);
+                        //2. 把当前节点对象添加到父类对象中
 
-                    //2. 把当前节点对象添加到父类对象中
+                        //$good->prependTo($cateParent);
+                        $good->appendTo($cateParent);
 
-                    //$good->prependTo($cateParent);
-                    $good->appendTo($cateParent);
-
+                    }
+                }catch (Exception $e){
+                    //var_dump($e->getMessage());exit();
+                    \Yii::$app->session->setFlash("success",'不能移动到自己节点下');
+                    return $this->redirect('index');
                 }
+
+
                 //页面跳转
                 return $this->redirect('index');
                 //提示信息 session保存
@@ -126,7 +136,7 @@ class GoodsCategoryController extends \yii\web\Controller
         $cate=GoodsCategory::findOne($id);
 
 
-            $cate->delete();
+            $cate->deleteWithChildren();
             //页面跳转
             $this->redirect('index');
             \Yii::$app->session->setFlash("success","删除成功");

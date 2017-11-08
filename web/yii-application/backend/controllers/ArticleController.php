@@ -3,9 +3,11 @@
 namespace backend\controllers;
 
 use backend\models\Article;
+use backend\models\ArticleCategory;
 use backend\models\ArticleDetail;
 use yii\data\Pagination;
 use yii\db\Query;
+use yii\helpers\ArrayHelper;
 
 class ArticleController extends \yii\web\Controller
 {
@@ -51,6 +53,9 @@ class ArticleController extends \yii\web\Controller
         //创建模型对象
         $article=new Article();
         $article_detaile=new ArticleDetail();
+
+        $cate=ArticleCategory::find()->all();
+        $options=ArrayHelper::map($cate,'id','cate_name');
         //创建http请求对象
         $request=\Yii::$app->request;
         //判断是不是post提交
@@ -72,7 +77,7 @@ class ArticleController extends \yii\web\Controller
             }
         }
         //显示视图
-        return $this->render('add',['article'=>$article,'article_detaile'=>$article_detaile]);
+        return $this->render('add',['article'=>$article,'article_detaile'=>$article_detaile,'options'=>$options]);
     }
 
     /**
