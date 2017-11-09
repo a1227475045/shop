@@ -36,7 +36,7 @@ AppAsset::register($this);
         ],
     ]);
     $menuItems = [
-        ['label' => 'Saoka', 'url' => ['/brand/index']],
+        ['label' => '骚猪儿，不要点这个', 'url' => ['/goods/index']],
         [
                 'label'=>'快速访问',
             'items'=>[
@@ -59,18 +59,22 @@ AppAsset::register($this);
                 [
                     'label'=>'商品列表',
                     'url'=>'/goods/index'
+                ],
+                [
+                    'label'=>'管理员列表',
+                    'url'=>'/admin/index'
                 ]
             ]
         ]
 
     ];
     if (Yii::$app->user->isGuest) {
-        $menuItems[] = ['label' => '登陆', 'url' => ['/site/login']];
+        $menuItems[] = ['label' => '登陆', 'url' => ['/admin/login']];
     } else {
         $menuItems[] = '<li>'
-            . Html::beginForm(['/site/logout'], 'post')
+            . Html::beginForm(['/admin/logout'], 'post')
             . Html::submitButton(
-                'Logout (' . Yii::$app->user->identity->username . ')',
+                '退出登录 (欢迎您.' . Yii::$app->user->identity->username . ')',
                 ['class' => 'btn btn-link logout']
             )
             . Html::endForm()

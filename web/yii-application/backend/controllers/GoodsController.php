@@ -87,7 +87,7 @@ class GoodsController extends \yii\web\Controller
 
 
         $b_cate = Brands::find()->all();
-        $g_cate = GoodsCategory::find()->where(['depth'=>1])->all();
+        $g_cate = GoodsCategory::find()->where(['depth'=>2])->all();
 
         $request = \Yii::$app->request;
         if ($request->isPost){
@@ -293,6 +293,7 @@ class GoodsController extends \yii\web\Controller
         $key = uniqid();
         //调用上传方法
         $qiniu->uploadFile($_FILES['file']['tmp_name'],$key);
+
         $url = $qiniu->getLink($key);
         $info=[
             'code'=>0,

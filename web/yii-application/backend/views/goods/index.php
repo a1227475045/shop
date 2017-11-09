@@ -6,7 +6,7 @@
 <div class="row">
         <div class="col-md-2"><?=\yii\bootstrap\Html::a("添加",['add'],['class'=>'btn btn-info'])?></div>
         <div class="col-md-10">
-             <form class="form-inline pull-right">
+             <form class="form-inline pull-right" method="get" >
             <input type="text" class="form-control" id="minPrice" name="minPrice" size="8" placeholder="最低价" value="<?=Yii::$app->request->get('minPrice')?>"> -
             <input type="text" class="form-control" id="maxPrice" name="maxPrice"  size="8" placeholder="最高价" value="<?=Yii::$app->request->get('maxPrice')?>">
                 <input type="text" class="form-control" id="keyword" name="keyword" placeholder="请输入商品名称或货号" value="<?=Yii::$app->request->get('keyword')?>">

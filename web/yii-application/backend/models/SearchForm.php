@@ -19,7 +19,7 @@ class SearchForm extends Model
 
     public function rules(){
         return [
-          [['minPrice','maxPrice'],'number'],
+          [['minPrice','maxPrice'],'number','message'=>''],
             [['keyword'],'safe']
         ];
     }
