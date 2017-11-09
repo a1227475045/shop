@@ -10,6 +10,7 @@ use backend\models\GoodsCategory;
 use backend\models\GoodsDayCount;
 use backend\models\GoodsGallery;
 use backend\models\GoodsIntro;
+use backend\models\SearchForm;
 use flyok666\qiniu\Qiniu;
 use yii\data\Pagination;
 use yii\helpers\ArrayHelper;
@@ -32,9 +33,32 @@ class GoodsController extends \yii\web\Controller
      */
     public function actionIndex()
     {
+        //构造查询对象
+        $query=Goods::find();
+        $request=\Yii::$app->request;
+       //var_dump($request->get());exit();
+        //接受变量
+        $keyword=$request->get('keyword');
+        $minPrice=$request->get('minPrice');
+        $maxPrice=$request->get('maxPrice');
+
+        //判断条件
+        if ($minPrice>0){
+            //构造查询条件
+            $query->andWhere("shop_price >= {$minPrice}");
+        }
+        if ($maxPrice>0){
+            $query->andWhere("shop_price <= {$maxPrice}");
+        }
+        if (isset($keyword)){
+            $query->andWhere("name like '%{$keyword}%' or sn like '%{$keyword}%'");
+    }
+        //var_dump($request->get('keyword'));exit();
         //分页
         //1.总条数
-        $count=Brands::find()->count();
+        $count=$query->count();
+        //创建搜索模型对象
+        $search=new SearchForm();
         //2.每页显示的条数
         $pagesize=5;
         $page=new Pagination([
@@ -43,10 +67,11 @@ class GoodsController extends \yii\web\Controller
         ]);
 
         //处理数据
-        $goods=Goods::find()->limit($page->limit)->offset($page->offset)->all();
-      /* echo "<pre>";
+        $goods=$query->limit($page->limit)->offset($page->offset)->all();
+       /*echo "<pre>";
         var_dump($goods);exit;*/
-        return $this->render('index',['goods'=>$goods,'page'=>$page]);
+       return $this->render('index',['goods'=>$goods,'page'=>$page,'search'=>$search]);
+        //return $this->render('index',compact("page",    "goods","search"));
     }
 
     /**
@@ -216,8 +241,14 @@ class GoodsController extends \yii\web\Controller
     public function actionDel($id){
         //找到这条数据
         $good=Goods::findOne($id);
+        $intro=GoodsIntro::findOne($id);
+        $photo=GoodsGallery::findOne($id);
         //删除
         $good->delete();
+        $intro->delete();
+        $photo->delete();
+        //删除商品详情信息
+
         //session验证
         \Yii::$app->session->setFlash('success','删除成功');
         //页面跳转
