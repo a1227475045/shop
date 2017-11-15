@@ -23,6 +23,9 @@ use yii\web\IdentityInterface;
  */
 class Admin extends ActiveRecord implements IdentityInterface
 {
+
+    //定义一个属性来接收所有的角色
+    public $role=[];
     /**
      * @inheritdoc
      */
@@ -39,7 +42,8 @@ class Admin extends ActiveRecord implements IdentityInterface
         return [
              [['username'], 'unique'],
             [['email'], 'unique'],
-            [['username','password'],'required']
+            [['username','password'],'required'],
+            [['role'],'safe']
         ];
     }
 
@@ -59,6 +63,7 @@ class Admin extends ActiveRecord implements IdentityInterface
             'add_time' => '注册时间',
             'last_login_time' => '最后登录时间',
             'last_login_ip' => '最后登录IP',
+            'role'=>'管理员角色'
         ];
     }
 

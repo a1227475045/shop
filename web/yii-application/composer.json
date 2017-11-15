@@ -23,7 +23,9 @@
         "liyuze/yii2-ztree": "^1.0",
         "bailangzhan/yii2-webuploader": "^1.1",
         "flyok666/yii2-qiniu": "^1.0",
-        "kucha/ueditor": "*"
+        "kucha/ueditor": "*",
+        "mdmsoft/yii2-admin": "~2.0",
+        "dmstr/yii2-adminlte-asset": "^2.1"
     },
     "require-dev": {
         "yiisoft/yii2-debug": "~2.0.0",

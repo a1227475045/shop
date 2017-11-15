@@ -124,24 +124,25 @@ class GoodsController extends \yii\web\Controller
                     $photo->path= $imgfile;
 //                    var_dump($photo->path);exit;
                     $photo->save();
-
-
-                }
+                 }
               /*  echo "<pre>";
                 var_dump($model->sn);exit();*/
 //var_dump($request->post());exit;
             //商品详情
                 if ($intro->load($request->post()) && $intro->validate()){
                     $intro->goods_id = $model->id;
+
                     $intro->save();
 
-                        \Yii::$app->session->setFlash('success','添加商品成功');
-                        return $this->redirect(['index']);
 
-                    }
+                    \Yii::$app->session->setFlash('success','添加商品成功');
+                    return $this->redirect(['index']);
+
                 }
 
             }
+
+        }
 
         $options = [
             ArrayHelper::map($b_cate,'id','name'),
