@@ -143,4 +143,8 @@ class Admin extends ActiveRecord implements IdentityInterface
     {
         return $this->token === $authKey;
     }
+    //和用户角色表一对一
+    public function getAuthAssignment(){
+        return $this->hasOne(AuthAssignment::className(),['user_id'=>'id']);
+    }
 }

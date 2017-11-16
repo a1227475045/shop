@@ -10,6 +10,7 @@ namespace backend\controllers;
 
 
 use backend\models\Brands;
+use backend\models\Goods;
 use flyok666\qiniu\Qiniu;
 use yii\data\Pagination;
 use yii\web\Controller;
@@ -166,10 +167,23 @@ class BrandController extends Controller
     public function actionDel($id){
         //找到要删除的数据
         $brand=Brands::findOne($id);
-        //删除
-        $brand->delete();
-        //页面跳转
-        $this->redirect('index');
+        $result=Goods::find()->where(['brand_id'=>$id])->all();
+        if (!$result){
+            //删除
+            $brand->delete();
+            //session提示
+            \Yii::$app->session->setFlash('success','删除成功');
+            //页面跳转
+            $this->redirect('index');
+        }else{
+            //页面跳转
+            $this->redirect('index');
+            //session提示
+            \Yii::$app->session->setFlash('danger','该品牌已被商品选中，不能删除');
+
+        }
+
+
     }
 
     //图片上传

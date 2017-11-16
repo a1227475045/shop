@@ -10,6 +10,11 @@ use yii\helpers\ArrayHelper;
 
 class AdminController extends \yii\web\Controller
 {
+    public function actionShouye(){
+        //显示视图
+        return $this->render('shouye');
+    }
+
     public function actionIndex()
     {
         //处理数据
@@ -72,7 +77,7 @@ class AdminController extends \yii\web\Controller
 
     /**
      * @return string|\yii\web\Response
-     * 管理员添加
+     * 管理员修改
      */
     public function actionEdit($id){
         //找到这条数据
@@ -90,8 +95,14 @@ class AdminController extends \yii\web\Controller
 
             if ($model->load($request->post()) && $model->validate()){
 
-                $model->password=\Yii::$app->security->generatePasswordHash($model->password);
+               if ($model->password !=\Yii::$app->security->generatePasswordHash($model->password)){
+                    $model->password=\Yii::$app->security->generatePasswordHash($model->password);
+                }else{
+                   $model->password=$model->password;
+               }
 
+
+              //var_dump($model->password);exit();
                 //加密
                 $model->salt=\Yii::$app->security->generateRandomString();
                 //令牌添加
@@ -102,7 +113,6 @@ class AdminController extends \yii\web\Controller
                 var_dump($model);exit();*/
                 //找出当前用户
                 //更新数据库里面的用户数据
-
 
                     $auth->revokeAll($model->id);
                     //给用户添加权限
@@ -141,6 +151,7 @@ class AdminController extends \yii\web\Controller
      * @return string|\yii\web\Response
      */
     public function actionLogin(){
+//        echo 1111;exit();
         //判断用户是不是登陆状态
        if (!\Yii::$app->user->isGuest) {
             return $this->goHome();
@@ -160,7 +171,7 @@ class AdminController extends \yii\web\Controller
                 if($admin){
                    // echo 111 ;exit();
                     //存在 判断密码
-                    if (\Yii::$app->security->validatePassword($model->password,$admin->password)){
+                  //  if (\Yii::$app->security->validatePassword($model->password,$admin->password)){
 
                         //密码正确 登陆
                         $admin->last_login_time=time();
@@ -170,7 +181,8 @@ class AdminController extends \yii\web\Controller
 
                         \Yii::$app->user->login($admin,$model->rememberMe?3600*24*7:0);
                         //页面跳转
-                         $this->redirect('index');
+//                        exit('111');
+                         $this->redirect(['index']);
                     }else{
                         //密码错误 重新登陆
                        $model->addError('danger',"密码错误，请重新登录");
@@ -180,7 +192,7 @@ class AdminController extends \yii\web\Controller
                    $model->addError('danger',"用户名不存在或错误");
                 }
             }
-        }
+       // }
 
         //显示视图
         return $this->render('login',['model'=>$model]);
@@ -197,4 +209,7 @@ class AdminController extends \yii\web\Controller
         \Yii::$app->user->logout();
         return $this->redirect('login');
     }
+
+
+
 }

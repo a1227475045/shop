@@ -79,4 +79,9 @@ class Brands extends \yii\db\ActiveRecord
             return "@web/".$this->logo;
         }
     }
+
+
+    public function getGoods(){
+        return $this->hasOne(Goods::className(),['brand_id'=>'id']);
+    }
 }
